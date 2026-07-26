@@ -13,7 +13,7 @@ metadata:
 Centralized coordination via Uteke rooms.
 
 > **Room system requires uteke-serve v0.8.0+** (schema v15). Check: `curl -sf -H "Authorization: Bearer $UTEKE_TOKEN" $UTEKE_BASE_URL/health`.
-> **CLI reference:** → [uteke skill](../uteke) | **Latest uteke version:** v0.10.0
+> **CLI reference:** → [uteke skill](../uteke) | **Latest uteke version:** v0.10.1
 
 ## Quick Start
 

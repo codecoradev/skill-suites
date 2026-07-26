@@ -33,7 +33,7 @@ uteke recall "password rotation" --namespace ops
 
 | Skill Version | Uteke Binary | Requires uteke-serve |
 |---------------|-------------|-------------------|
-| 0.10.0 | v0.10.0+ | v0.8.0+ (schema v15) |
+| 0.10.1 | v0.10.1+ | v0.8.0+ (schema v15) |
 
 ## Installation
 

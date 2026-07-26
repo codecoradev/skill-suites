@@ -1,7 +1,7 @@
 ---
 name: uteke
 description: "Uteke offline semantic memory engine — open source product."
-version: 0.10.0
+version: 0.10.1
 metadata:
   hermes:
     tags: [uteke, memory, semantic-search, offline, rust, local-first]
@@ -18,7 +18,7 @@ Persistent, searchable AI memory — offline, single Rust binary, ~30ms recall. 
 
 | Topic | Details |
 |-------|---------|
-| **Binary** | `uteke` (v0.10.0, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
+| **Binary** | `uteke` (v0.10.1, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
 | **License** | Apache 2.0 |
 | **Install** | `curl -sSL codecora.dev/install | sh` (one-liner, all platforms) |
 | **Source** | [codecoradev/uteke](https://github.com/codecoradev/uteke) (Rust, develop=mainline, main=release mirror) |
@@ -443,7 +443,7 @@ When fixing documentation gaps from a GitHub issue spec:
     - **Bug A (FIXED): `new_` parameter silently dropped.** `_get_room_id()` now checks `kwargs.get("new_", "")` as fallback after `room_id` and `room`.
     - **Bug B (FIXED): Namespace default hardcoded to `"hermes"`.** Now uses `os.environ.get("HERMES_PROFILE", "hermes")` as default — automatically matches the agent's profile namespace.
     - **Bug C (FIXED): `room_recall` doesn't send namespace.** `room_recall`, `room_summary`, `room_stats`, and `room_delete` now all include `namespace` in their API calls.
-    **Note:** Plugin needs gateway reload to take effect. For room writes, `POST /room/remember` (v0.10.0+) is preferred over the plugin (see pitfall #18a).
+    **Note:** Plugin needs gateway reload to take effect. For room writes, `POST /room/remember` (v0.10.1+) is preferred over the plugin (see pitfall #18a).
 
 75. ⚠️ **`uteke room recall` JSON format is INCONSISTENT between semantic and chronological modes.** With `--query`, returns `[{"memory": {...}, "score": 0.98}]` (wrapped, like `/recall` API). WITHOUT `--query`, returns flat `[{"id": "...", "content": "..."}]` (no wrapper, no score). **Any code parsing `room recall --json` MUST handle both formats.** Fix: unwrap function that checks for `"memory"` key:
     ```python
@@ -484,7 +484,7 @@ When fixing documentation gaps from a GitHub issue spec:
 2. Or full audit: per-namespace coverage table. Namespaces with <10% coverage and >5 memories are almost certainly missing `room_remember` calls.
 3. Verify directly: `SELECT COUNT(*) FROM memories WHERE namespace='myagent' AND deprecated=0` vs `SELECT COUNT(DISTINCT memory_id) FROM room_memories rm JOIN memories m ON rm.memory_id=m.id WHERE m.namespace='myagent' AND m.deprecated=0`.
 
-**Fix:** Use `POST /room/remember` (v0.10.0+) or direct SQLite INSERT into `room_memories` (pitfall #18a) to backfill the junction rows.
+**Fix:** Use `POST /room/remember` (v0.10.1+) or direct SQLite INSERT into `room_memories` (pitfall #18a) to backfill the junction rows.
 
 **Prevention:** When an agent intends to store to a room, it must use `uteke room_remember` or the plugin's `room_remember` action — NOT the plain `remember` action.
 
