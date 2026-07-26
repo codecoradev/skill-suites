@@ -11,6 +11,7 @@ Reusable, shareable, adoptable — clone and use with any Hermes-compatible agen
 | Suite | Description |
 |-------|-------------|
 | [uteke](src/uteke/) | Offline-first semantic memory engine — persistent, searchable AI memory with ~30ms recall |
+| [uteke-coordination](src/uteke-coordination/) | Room-based inter-agent coordination — shared memory rooms for multi-agent task routing, alerts, discussions |
 | [cora-code](src/cora-code/) | Code intelligence platform — symbol extraction, hybrid search, brain mode (BYOK) |
 | [covecto](src/covecto/) | Raster-to-SVG vectorization — convert bitmap images to clean vector graphics in Rust |
 
