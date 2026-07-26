@@ -1,7 +1,11 @@
 ---
 name: covecto
 description: "Covecto — Raster-to-SVG vectorization ecosystem in Rust. Convert images to clean vector graphics."
-author: CodeCoraDev
+version: 1.0.0
+metadata:
+  author: CodeCoraDev
+  hermes:
+    tags: [covecto, vectorization, raster-to-svg, rust, vtracer, potrace, image-processing]
 triggers:
   - image to svg
   - raster to vector

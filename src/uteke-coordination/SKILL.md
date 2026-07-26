@@ -1,16 +1,21 @@
 ---
 name: uteke-coordination
-description: Uteke Room-based inter-agent coordination — replaces AgentBoard. Shared memory rooms for task routing, alerts, discussions, CS handoffs.
-tags: [uteke, coordination, multi-agent, rooms, hermes]
+description: Uteke Room-based inter-agent coordination — shared memory rooms for multi-agent task routing, alerts, discussions, CS handoffs.
+version: 1.0.0
+metadata:
+  author: CodeCoraDev
+  hermes:
+    tags: [uteke, coordination, multi-agent, rooms, hermes]
 ---
 
 # Uteke Coordination — Inter-Agent Room System
 
-Centralized coordination via Uteke rooms. Replaces AgentBoard task tracking and webhook notifications.
+Centralized coordination via Uteke rooms.
 
 > **Room system requires uteke-serve v0.8.0+** (schema v15). Check: `curl -sf -H "Authorization: Bearer $UTEKE_TOKEN" $UTEKE_BASE_URL/health`.
-> **CLI reference:** → [uteke skill](uteke) | **Binary:** `~/.local/bin/uteke` (uteke-serve runs in Docker container — access via `http://localhost:8767` or `http://localhost:8767` internal)
-> **Latest uteke version:** v0.10.0 (2026-07-22). `POST /room/remember` added (store + link in one call). `DELETE /forget` now returns 404 for non-existent IDs. `POST /room/document` renamed to `POST /room/summary-document` (v0.9.0). `hermes-memory-provider` plugin **DEPRECATED** (v0.8.0) — use HTTP transport.
+> **CLI reference:** → [uteke skill](../uteke) | **Latest uteke version:** v0.10.0
+
+## Quick Start
 
 ## Quick Start
 
