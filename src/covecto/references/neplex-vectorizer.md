@@ -4,12 +4,12 @@
 
 NOT a pure JavaScript library. Core is **Rust** compiled to native via **napi-rs** (Node.js N-API bindings).
 
-- **Repo:** github.com/neplextech/vectorizer
-- **Stars:** 201
-- **Core engine:** `visioncortex` crate v0.8.10 (vtracer)
-- **JS binding:** napi-rs
-- **Last commit:** Jul 2026, active
-- **Performance:** ~530µs/iter (4-7x faster than imagetracerjs/potrace)
+- Repo: github.com/neplextech/vectorizer
+- Stars: 201
+- Core engine: `visioncortex` crate v0.8.10 (vtracer)
+- JS binding: napi-rs
+- Last commit: Jul 2026, active
+- Performance: ~530µs/iter (4-7x faster than imagetracerjs/potrace)
 
 ## Cargo.toml (Rust core)
 

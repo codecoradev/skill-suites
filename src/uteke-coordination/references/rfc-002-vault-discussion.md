@@ -27,10 +27,10 @@ Orchestrator (research-agent) created the room and seeded research. Each round, 
 ### Round 2: Synthesis + Rebuttal
 
 Key tensions resolved:
-- **finance-agent's .env script**: Partially solves duplication but not discovery or per-profile scoping. Script wins on speed; vault wins on operational visibility.
-- **legal-agent's separate SQLite**: All agents agreed — `vault.db` separate from memories DB. Isolates corruption blast radius, simplifies backup.
-- **ops-agent's degraded mode**: Clarified as encrypted SQLite decryption (CLI-only, master key required), NOT plaintext cache. 2s timeout requirement.
-- **marketing-agent's no-GUI**: Unanimous agreement. CLI-only is correct UX.
+- finance-agent's .env script: Partially solves duplication but not discovery or per-profile scoping. Script wins on speed; vault wins on operational visibility.
+- legal-agent's separate SQLite: All agents agreed — `vault.db` separate from memories DB. Isolates corruption blast radius, simplifies backup.
+- ops-agent's degraded mode: Clarified as encrypted SQLite decryption (CLI-only, master key required), NOT plaintext cache. 2s timeout requirement.
+- marketing-agent's no-GUI: Unanimous agreement. CLI-only is correct UX.
 
 ### Round 3: Decision Proposal + Conditional Votes
 

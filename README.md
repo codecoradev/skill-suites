@@ -2,7 +2,7 @@
 
 AI agent skill suites for Uteke, Cora Code, Covecto, and more.
 
-Reusable, shareable, adoptable — clone and use with any Hermes-compatible agent.
+Clone a skill, drop it in your Hermes skills folder, done.
 
 ## Suites
 
@@ -10,16 +10,16 @@ Reusable, shareable, adoptable — clone and use with any Hermes-compatible agen
 
 | Suite | Description |
 |-------|-------------|
-| [uteke](src/uteke/) | Offline-first semantic memory engine — persistent, searchable AI memory with ~30ms recall |
-| [uteke-coordination](src/uteke-coordination/) | Room-based inter-agent coordination — shared memory rooms for multi-agent task routing, alerts, discussions |
-| [cora-code](src/cora-code/) | Code intelligence platform — symbol extraction, hybrid search, brain mode (BYOK) |
-| [covecto](src/covecto/) | Raster-to-SVG vectorization — convert bitmap images to clean vector graphics in Rust |
+| [uteke](src/uteke/) | Offline-first semantic memory engine, persistent, searchable AI memory with ~30ms recall |
+| [uteke-coordination](src/uteke-coordination/) | Room-based inter-agent coordination, shared memory rooms for multi-agent task routing, alerts, discussions |
+| [cora-code](src/cora-code/) | Code intelligence platform, symbol extraction, hybrid search, brain mode (BYOK) |
+| [covecto](src/covecto/) | Raster-to-SVG vectorization, convert bitmap images to clean vector graphics in Rust |
 
 ### Plugins
 
 | Plugin | Description |
 |--------|-------------|
-| [uteke-tool](plugins/uteke-tool/) | Hermes agent plugin for Uteke API — remember, recall, rooms, documents, tags |
+| [uteke-tool](plugins/uteke-tool/) | Hermes agent plugin for Uteke API, remember, recall, rooms, documents, tags |
 
 ## Installation
 
@@ -107,7 +107,7 @@ export CORA_LLM_API_KEY=your-key
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
 
 ## Contributing
 
@@ -119,10 +119,10 @@ MIT — see [LICENSE](LICENSE).
 
 ## Products
 
-- **[Uteke](https://github.com/codecoradev/uteke)** — Offline-first semantic memory engine
-- **[Cora Code](https://github.com/codecoradev/cora-code)** — Code intelligence platform
-- **Covecto** — Raster-to-SVG vectorization (coming soon)
+- [Uteke](https://github.com/codecoradev/uteke), Offline-first semantic memory engine
+- [Cora Code](https://github.com/codecoradev/cora-code), Code intelligence platform
+- Covecto: Raster-to-SVG vectorization (coming soon)
 
 ---
 
-Made with ⚡ by [CodeCoraDev](https://github.com/codecoradev)
+By [CodeCoraDev](https://github.com/codecoradev)

@@ -1,13 +1,13 @@
 # covecto
 
-**Covecto** — Raster-to-SVG vectorization ecosystem in Rust. Convert images to clean, editable vector graphics.
+Covecto: Raster-to-SVG vectorization ecosystem in Rust. Convert images to clean, editable vector graphics.
 
-## What's in this skill?
+## Contents
 
-- **Architecture** — pipeline overview, Neplex vectorizer, OxVG backend
-- **Usage** — CLI commands, config options, quality tuning
-- **Pitfalls** — OxVG conflicts, vtracer vs potrace tradeoffs, SVG cleanup
-- **References** — architecture diagrams, Neplex algorithm details
+- Pipeline overview, Neplex vectorizer, OxVG backend
+- CLI commands, config options, quality tuning
+- Pitfalls (OxVG conflicts, vtracer vs potrace tradeoffs, SVG cleanup)
+- Architecture diagrams and Neplex algorithm details
 
 ## Quick Start
 
@@ -34,7 +34,7 @@ Place this `SKILL.md` in `~/.hermes/skills/covecto/`.
 
 ## Related
 
-- **[Covecto repo](https://github.com/codecoradev/covecto)** — Source code
+- [Covecto repo](https://github.com/codecoradev/covecto), Source code
 
 ## License
 

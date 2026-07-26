@@ -42,9 +42,9 @@ let sql = r#"
 ```
 
 Key rules:
-- **Read-only** on attached DBs — never write to another product's DB
-- **Graceful degradation** — if uteke.db doesn't exist or ATTACH fails, skip enrichment, don't error
-- **Path resolution** — always use `dirs::home_dir().join(".codecora/uteke/uteke.db")`, not hardcoded paths
+- Read-only on attached DBs — never write to another product's DB
+- Graceful degradation — if uteke.db doesn't exist or ATTACH fails, skip enrichment, don't error
+- Path resolution — always use `dirs::home_dir().join(".codecora/uteke/uteke.db")`, not hardcoded paths
 
 ## Uteke Schema Relevant for Integration
 

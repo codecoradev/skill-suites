@@ -59,9 +59,9 @@ This structure works for product/business evaluation discussions. Adapt topics p
 
 Not every agent needs to be in every round. Rotate based on relevance:
 
-- **research-agent/finance-agent/Bad Sector** — rounds 1-2, 4-7 (technical + financial + challenge)
-- **Kai/Somad** — rounds 3, 5-6 (market + GTM + content)
-- **All agents** — rounds 1 (baseline) and 7 (final verdict)
+- research-agent/finance-agent/Bad Sector — rounds 1-2, 4-7 (technical + financial + challenge)
+- Kai/Somad — rounds 3, 5-6 (market + GTM + content)
+- All agents — rounds 1 (baseline) and 7 (final verdict)
 
 When using 3 agents (research-agent, finance-agent, Bad Sector), all participate every round. When adding Kai/Somad, batch them in rounds where their expertise matters.
 
@@ -92,9 +92,9 @@ Indonesia campur English. MAKSIMAL 800 kata.""",
 
 ### Key Context Patterns
 
-- **Round 1**: Include full leader draft with market data, product details, constraints.
-- **Rounds 2-6**: Include 3-5 sentence summary of EACH agent's position from prior round. Format: "### Agent (Role): Score X/10\n- Key point 1\n- Key point 2"
-- **Round 7**: Include "Full 6-Round Summary" — compressed consensus points + remaining disagreements.
+- Round 1: Include full leader draft with market data, product details, constraints.
+- Rounds 2-6: Include 3-5 sentence summary of EACH agent's position from prior round. Format: "### Agent (Role): Score X/10\n- Key point 1\n- Key point 2"
+- Round 7: Include "Full 6-Round Summary" — compressed consensus points + remaining disagreements.
 
 ## Consensus Tracking
 

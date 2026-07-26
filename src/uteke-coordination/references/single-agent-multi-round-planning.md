@@ -35,14 +35,14 @@
 ## Content Quality Checklist
 
 Each round should include:
-- **Concrete numbers** — dollar amounts, request volumes, percentages, timelines
-- **Tables** — comparison matrices, pricing tiers, P&L projections
-- **Code examples** — SQL schemas, Go code snippets, Python SDK usage, curl commands
-- **ASCII diagrams** — architecture flow diagrams showing request routing
-- **Trade-off analysis** — explicit Go vs Rust vs Node.js comparison with decision rationale
-- **Error handling** — retry policies, timeout strategies, error code tables
-- **Monitoring plan** — metrics to track, alert thresholds, tooling stack
-- **Sensitivity analysis** — worst-case scenarios, break-even calculations, risk modeling
+- Concrete numbers — dollar amounts, request volumes, percentages, timelines
+- Tables — comparison matrices, pricing tiers, P&L projections
+- Code examples — SQL schemas, Go code snippets, Python SDK usage, curl commands
+- ASCII diagrams — architecture flow diagrams showing request routing
+- Trade-off analysis — explicit Go vs Rust vs Node.js comparison with decision rationale
+- Error handling — retry policies, timeout strategies, error code tables
+- Monitoring plan — metrics to track, alert thresholds, tooling stack
+- Sensitivity analysis — worst-case scenarios, break-even calculations, risk modeling
 
 ## Pitfall: Existing Room Content Quality
 

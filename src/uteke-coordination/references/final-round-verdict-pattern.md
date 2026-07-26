@@ -34,9 +34,9 @@
 
 ### Conditions Met
 
-- **[Condition 1]:** MET. [Evidence from proposal]
-- **[Condition 2]:** MET. [Evidence]
-- **[Condition 3]:** NOT MET. [What was dropped/deferred]
+- [Condition 1]: MET. [Evidence from proposal]
+- [Condition 2]: MET. [Evidence]
+- [Condition 3]: NOT MET. [What was dropped/deferred]
 
 ### Residual Concern
 

@@ -162,9 +162,9 @@ For CI workflows — always review full PR diff regardless of size, hard gate on
 ```
 
 `--ci` behavior:
-- **Skips `max_diff_size` check** — CI always reviews full PR diff (no 50K limit)
-- **Hard gate on any finding** — exit 2 if ANY issue found (independent of `on_violation` config)
-- **NOT for pre-commit hooks** — hooks use `on_violation` config instead
+- Skips `max_diff_size` check — CI always reviews full PR diff (no 50K limit)
+- Hard gate on any finding — exit 2 if ANY issue found (independent of `on_violation` config)
+- NOT for pre-commit hooks — hooks use `on_violation` config instead
 
 | Scenario | `on_violation` | `--ci` | Exit Code |
 |----------|----------------|--------|-----------|

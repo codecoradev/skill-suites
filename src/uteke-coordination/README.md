@@ -1,13 +1,13 @@
 # uteke-coordination
 
-**Uteke Room-based inter-agent coordination** — coordinate multiple AI agents through shared memory rooms.
+Uteke Room-based inter-agent coordination: coordinate multiple AI agents through shared memory rooms.
 
-## What's in this skill?
+## Contents
 
-- **Room patterns** — task routing, alert broadcasting, multi-round discussions, CS handoffs
-- **Workflow examples** — 7-round discussion, final-round verdict, single-agent planning
-- **Room conventions** — parent/child hierarchy, tag taxonomy, naming standards
-- **Pitfalls** — room junction contamination, cross-instance memory leaks, namespace isolation
+- Room patterns (task routing, alert broadcasting, multi-round discussions, CS handoffs)
+- Workflow examples (7-round discussion, final-round verdict, single-agent planning)
+- Room conventions (parent/child hierarchy, tag taxonomy, naming standards)
+- Pitfalls (room junction contamination, cross-instance memory leaks, namespace isolation)
 
 ## Quick Start
 
@@ -37,8 +37,8 @@ Place this `SKILL.md` in `~/.hermes/skills/uteke-coordination/`.
 
 ## Related
 
-- **[uteke](../uteke/)** — Core Uteke CLI and API reference
-- **[Extensions](../../extensions/)** — Auto-recall and auto-extract hooks
+- [uteke](../uteke/), Core Uteke CLI and API reference
+- [Extensions](../../extensions/), Auto-recall and auto-extract hooks
 
 ## License
 

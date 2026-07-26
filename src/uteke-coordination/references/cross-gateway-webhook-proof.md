@@ -21,7 +21,7 @@
 - Agents use `knowledge` tool (Uteke Hermes plugin), NOT `uteke` CLI
 - `knowledge.remember()` stores to agent's own namespace, not the target room
 - `uteke room recall` after webhook returns only research-agent's entries
-- **Workaround:** Collect from `state.db` → `messages` table, not from Uteke Room
+- Workaround: Collect from `state.db` → `messages` table, not from Uteke Room
 
 ## Response Collection Pattern
 
@@ -66,10 +66,10 @@ ORDER BY rowid DESC LIMIT 1
 
 ## Conditions Per Agent
 
-- **finance-agent:** Mandatory default vault plugin, per-agent key cost tracking
-- **legal-agent:** Access logging non-negotiable (UU PDP Pasal 30), liability chain documented
-- **marketing-agent:** Default experience = zero-config, vault opt-in at enable, marketing stays simple
-- **ops-agent:** Migration runbook from env vars, observability metrics, RFC-001 prerequisite
+- finance-agent: Mandatory default vault plugin, per-agent key cost tracking
+- legal-agent: Access logging non-negotiable (UU PDP Pasal 30), liability chain documented
+- marketing-agent: Default experience = zero-config, vault opt-in at enable, marketing stays simple
+- ops-agent: Migration runbook from env vars, observability metrics, RFC-001 prerequisite
 
 ## Comparison: delegate_task vs Cross-Gateway
 

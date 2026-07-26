@@ -134,7 +134,7 @@ Bidirectional delta sync between desktop and VPS. Optional client-side encryptio
 - `memory_edges` sudah punya `edge_type` (sebagai predicate) dan 481 edges aktif
 - Tambah: `weight REAL` (confidence), `valid_from TEXT`, `valid_until TEXT`
 - `memories` table sudah punya `valid_from` (5970 records) — temporal pattern sudah established
-- **Deprecate `graph_nodes` + `graph_edges`** — kedua tabel KOSONG, redundant dengan `memories` + `memory_edges`
+- Deprecate `graph_nodes` + `graph_edges` — kedua tabel KOSONG, redundant dengan `memories` + `memory_edges`
 - Tambah query API: `query_edges(subject, predicate, object)` — alias untuk filter `memory_edges`
 
 ### Priority 2 — MEMORIA Structured Extraction

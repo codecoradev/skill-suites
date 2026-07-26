@@ -46,12 +46,12 @@ Each room was seeded with one context memory containing real data from GitHub AP
 ### finance-agent Position Pattern (from Q3 2026)
 
 finance-agent posts structured financial analysis with these sections:
-- **Revenue Model Analysis** — Evaluate options (freemium, usage-based, per-seat) with pros/cons for the specific product stack
-- **Cost Structure** — Monthly/quarterly infra cost breakdown (hosting, domains, CI, tools)
-- **Pricing Proposal** — Tier table (Free/Self-Host, Starter, Pro, Enterprise) with price points and conversion math
-- **Financial Runway** — Timeline: Q3/Q4/Q1/Q2 revenue targets, break-even analysis, burn rate
-- **OSS + Monetization Risk** — Community backlash risk, dual licensing conflicts, competing-with-self (free vs cloud)
-- **Action Items** — Setup Stripe, draft ToS, benchmark cloud hosting costs, prepare payment infra
+- Revenue Model Analysis — Evaluate options (freemium, usage-based, per-seat) with pros/cons for the specific product stack
+- Cost Structure — Monthly/quarterly infra cost breakdown (hosting, domains, CI, tools)
+- Pricing Proposal — Tier table (Free/Self-Host, Starter, Pro, Enterprise) with price points and conversion math
+- Financial Runway — Timeline: Q3/Q4/Q1/Q2 revenue targets, break-even analysis, burn rate
+- OSS + Monetization Risk — Community backlash risk, dual licensing conflicts, competing-with-self (free vs cloud)
+- Action Items — Setup Stripe, draft ToS, benchmark cloud hosting costs, prepare payment infra
 
 ## Technical Report Format (research-agent)
 

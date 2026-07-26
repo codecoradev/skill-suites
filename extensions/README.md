@@ -1,8 +1,8 @@
 # Uteke Extensions for Hermes Agent
 
-Shell hooks that give Hermes agents **automatic memory** — recall relevant memories before each LLM call, and auto-extract takeaways when sessions end.
+Shell hooks that give Hermes agents automatic memory: recall relevant memories before each LLM call, and auto-extract takeaways when sessions end.
 
-## How It Works
+## Architecture
 
 ```
 ┌─────────────┐    ┌──────────────────┐    ┌─────────┐
@@ -79,7 +79,7 @@ hermes restart -p <your-profile>
 
 ## Usage
 
-### It just works — no manual steps needed
+### It just works, no manual steps needed
 
 Once configured, the hooks run automatically:
 
@@ -119,7 +119,7 @@ Next time you ask about CI/CD, uteke-recall will find this memory automatically.
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `UTEKE_BASE_URL` | `http://localhost:8767` | Uteke server URL |
-| `UTEKE_TOKEN` | *(required)* | Auth token — generate with `uteke token create` |
+| `UTEKE_TOKEN` | *(required)* | Auth token, generate with `uteke token create` |
 | `HERMES_PROFILE` | *(auto-detected)* | Agent profile name (usually auto-detected from cwd) |
 
 ### Tuning (edit constants in handler.py)
@@ -180,17 +180,17 @@ If detection fails, it defaults to `default`.
 
 Runs **before** each LLM call. Searches Uteke for relevant memories and injects them.
 
-- **Project-aware**: detects project from file paths → filters by `project:<name>` tag
-- **Skill suggestions**: also searches for relevant skill recommendations
-- **Skips**: cron sessions, very short messages (<5 chars), empty messages
+- Project-aware: detects project from file paths → filters by `project:<name>` tag
+- Skill suggestions: also searches for relevant skill recommendations
+- Skips: cron sessions, very short messages (<5 chars), empty messages
 
 ### uteke-extract (`on_session_finalize`)
 
 Runs **when a session ends**. Extracts structured takeaways and stores in Uteke.
 
-- **Structured extraction**: prioritizes headers, bullets, numbered lists, key-values, tables
-- **Project-aware**: auto-detects project from message content → tags appropriately
-- **Tags**: `auto-extract`, `agent:<name>`, `reason:<finalize_reason>`, `project:<name>`
+- Structured extraction: prioritizes headers, bullets, numbered lists, key-values, tables
+- Project-aware: auto-detects project from message content → tags appropriately
+- Tags: `auto-extract`, `agent:<name>`, `reason:<finalize_reason>`, `project:<name>`
 
 ## License
 
