@@ -1,4 +1,4 @@
-# CodeCoraDev Skill Suites
+# CodeCora Skill Suites
 
 AI agent skill suites for Uteke, Cora Code, Covecto, and more.
 
@@ -29,9 +29,34 @@ Clone a skill, drop it in your Hermes skills folder, done.
 |--------|-------------|
 | [uteke-tool](plugins/uteke-tool/) | Hermes agent plugin for Uteke API, remember, recall, rooms, documents, tags |
 
-## Installation
+## Prerequisites
 
-### Skills
+Product skills require their respective binary installed. Download from GitHub Releases:
+
+| Product | Latest | Download |
+|---------|--------|----------|
+| [Uteke](https://github.com/codecoradev/uteke) | v0.10.1 | [Releases](https://github.com/codecoradev/uteke/releases/latest) (Linux, macOS, Windows) |
+| [Cora Code](https://github.com/codecoradev/cora-code) | v0.8.1 | [Releases](https://github.com/codecoradev/cora-code/releases/latest) (Linux, macOS, Windows) |
+| [Covecto](https://github.com/codecoradev/covecto) | v0.1.1 | [Releases](https://github.com/codecoradev/covecto/releases/latest) (Linux, macOS, Windows) |
+
+Each release ships binaries for x86_64 and aarch64 on Linux/macOS, plus x86_64 on Windows.
+
+### Quick Install (Linux/macOS)
+
+```bash
+# Uteke
+curl -fsSL https://github.com/codecoradev/uteke/releases/latest/download/uteke-x86_64-unknown-linux-gnu.tar.gz | tar xz
+
+# Cora Code
+curl -fsSL https://github.com/codecoradev/cora-code/releases/latest/download/cora-x86_64-unknown-linux-gnu.tar.gz | tar xz
+
+# Covecto
+curl -fsSL https://github.com/codecoradev/covecto/releases/latest/download/covecto-x86_64-unknown-linux-gnu.tar.gz | tar xz
+```
+
+Workflow skills (humanizer, copywriting, hybrid-memory) have no external dependencies.
+
+## Installation
 
 ```bash
 # Clone the repo
@@ -64,34 +89,21 @@ export UTEKE_NAMESPACE=default                # Your namespace
 ### Uteke (Semantic Memory)
 
 ```bash
-# Remember something
 uteke remember "Deployed v2.1 to staging" --tags deploy,staging --type decision
-
-# Recall
 uteke recall "when did we deploy?" --namespace default
-
-# Via plugin (in agent context)
-uteke(action="remember", content="Important decision", tags="decision,infra")
-uteke(action="recall", query="deploy timeline", limit=5)
-uteke(action="room_recall", room="project-alpha", query="architecture")
 ```
 
 ### Cora Code (Code Intelligence)
 
 ```bash
-# Index a project
 cora init /path/to/project
 cora index
-
-# Search
 cora search "authentication middleware"
-cora brain "How does the auth flow work?"
 ```
 
 ### Covecto (Image Vectorization)
 
 ```bash
-# Convert raster to SVG
 covecto input.png -o output.svg
 covecto input.jpeg --format svg --quality high
 ```
@@ -108,30 +120,22 @@ covecto input.jpeg --format svg --quality high
 
 ### Cora Code
 
-Cora Code uses BYOK (Bring Your Own Key) model. Configure your LLM provider:
+Cora Code uses BYOK (Bring Your Own Key) model:
 
 ```bash
 export CORA_LLM_PROVIDER=openai  # or anthropic, ollama
 export CORA_LLM_API_KEY=your-key
 ```
 
-## License
-
-MIT, see [LICENSE](LICENSE).
-
 ## Contributing
 
-1. Fork this repo
-2. Create your feature branch (`git checkout -b feature/amazing-skill`)
-3. Commit your changes (`git commit -m 'Add amazing skill'`)
-4. Push to the branch (`git push origin feature/amazing-skill`)
-5. Open a Pull Request
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branch strategy, validation checklist, and PR process.
 
 ## Products
 
-- [Uteke](https://github.com/codecoradev/uteke), Offline-first semantic memory engine
-- [Cora Code](https://github.com/codecoradev/cora-code), Code intelligence platform
-- Covecto: Raster-to-SVG vectorization (coming soon)
+- [Uteke](https://github.com/codecoradev/uteke) — Offline-first semantic memory engine
+- [Cora Code](https://github.com/codecoradev/cora-code) — Code intelligence platform
+- [Covecto](https://github.com/codecoradev/covecto) — Dual-engine image-to-SVG vectorization (Rust)
 
 ---
 
