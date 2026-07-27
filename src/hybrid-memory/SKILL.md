@@ -2,6 +2,7 @@
 name: hybrid-memory
 version: 6.0.0
 license: MIT
+description: "Hybrid memory system combining SQLite (structured data, entity graph) with Uteke (semantic search). 4-tier lifecycle with frequency-based promotion."
 metadata:
   hermes:
     tags: [memory, sqlite, uteke, lifecycle]

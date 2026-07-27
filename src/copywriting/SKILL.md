@@ -8,6 +8,9 @@ description: |
   storytelling, voice development, platform-specific patterns, and 
   Bahasa Indonesia-specific copywriting. Complements humanizer skills.
 license: MIT
+metadata:
+  hermes:
+    tags: [copywriting, writing, persuasion, content, frameworks, aida, storytelling]
 compatibility: claude-code opencode
 allowed-tools:
   - Read
