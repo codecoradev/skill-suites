@@ -5,21 +5,21 @@ Skill Suites is a library of [Hermes Agent](https://github.com/nousresearch/herm
 ## Branch Strategy
 
 | Branch | Purpose |
-|--------|---------|
+|--------|--------|
 | `develop` | Default branch. All work happens here. |
-| `main` | Release branch. Protected. PR from `develop` required. |
+| `main` | Release branch. Protected. Merge from `develop` for releases. |
 
 ## Workflow
 
 1. **Fork** the repo
-2. **Create a branch** from `develop`:
+2. **Create a feature branch** from `develop`:
    ```bash
    git checkout -b feat/your-feature
    ```
 3. Make your changes
 4. Run validation (see below)
 5. **Push** and open a PR targeting `develop`
-6. After review and merge, a maintainer opens a release PR from `develop` to `main`
+6. After review and merge to `develop`, a maintainer creates a release PR `develop → main`
 
 ## Adding a New Skill
 
