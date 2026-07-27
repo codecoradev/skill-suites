@@ -15,6 +15,13 @@ Clone a skill, drop it in your Hermes skills folder, done.
 | [cora-code](src/cora-code/) | Code intelligence platform, symbol extraction, hybrid search, brain mode (BYOK) |
 | [covecto](src/covecto/) | Raster-to-SVG vectorization, convert bitmap images to clean vector graphics in Rust |
 
+### Workflow Skills
+
+| Suite | Description |
+|-------|-------------|
+| [humanizer](src/humanizer/) | Remove AI-generated writing patterns from text, 30+ detection rules |
+| [copywriting](src/copywriting/) | Copywriting frameworks and persuasion principles for natural text |
+
 ### Plugins
 
 | Plugin | Description |
@@ -33,6 +40,8 @@ git clone https://github.com/codecoradev/skill-suites.git
 cp -r skill-suites/src/uteke ~/.hermes/skills/
 cp -r skill-suites/src/cora-code ~/.hermes/skills/
 cp -r skill-suites/src/covecto ~/.hermes/skills/
+cp -r skill-suites/src/humanizer ~/.hermes/skills/creative/
+cp -r skill-suites/src/copywriting ~/.hermes/skills/
 ```
 
 ### Plugin (uteke-tool)
