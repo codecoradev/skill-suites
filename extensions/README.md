@@ -33,6 +33,12 @@ Shell hooks that give Hermes agents automatic memory: recall relevant memories b
 - Uteke server running (`uteke serve --port 8767`)
 - Uteke CLI installed ([install guide](https://github.com/codecoradev/uteke))
 
+## Companion Skill
+
+These extensions automate memory operations. For the full memory system (4-tier lifecycle, SQLite staging, confidence decay, entity graph), install the [hybrid-memory skill](../src/hybrid-memory/) alongside these extensions.
+
+**In short: install both for the complete experience.**
+
 ## Installation
 
 ### Step 1: Copy extension files

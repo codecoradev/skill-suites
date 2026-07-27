@@ -21,6 +21,7 @@ Clone a skill, drop it in your Hermes skills folder, done.
 |-------|-------------|
 | [humanizer](src/humanizer/) | Remove AI-generated writing patterns from text, 30+ detection rules |
 | [copywriting](src/copywriting/) | Copywriting frameworks and persuasion principles for natural text |
+| [hybrid-memory](src/hybrid-memory/) | SQLite + Uteke hybrid memory with 4-tier lifecycle and frequency-based promotion |
 
 ### Plugins
 
