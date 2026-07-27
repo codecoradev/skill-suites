@@ -131,7 +131,7 @@ MIT, see [LICENSE](LICENSE).
 
 - [Uteke](https://github.com/codecoradev/uteke), Offline-first semantic memory engine
 - [Cora Code](https://github.com/codecoradev/cora-code), Code intelligence platform
-- Covecto: Raster-to-SVG vectorization (coming soon)
+- [Covecto](https://github.com/codecoradev/covecto), Dual-engine image-to-SVG vectorization (Rust)
 
 ---
 
