@@ -4,10 +4,10 @@ Skill Suites is a library of [Hermes Agent](https://github.com/nousresearch/herm
 
 ## Branch Strategy
 
-| Branch | Purpose |
-|--------|--------|
-| `develop` | Default branch. All work happens here. |
-| `main` | Release branch. Protected. Merge from `develop` for releases. |
+| Branch | Purpose | Protection |
+|--------|---------|------------|
+| `develop` | Default branch. Integration target for all features. | PR required, 0 reviews, enforce admins |
+| `main` | Release branch. Only merged from `develop` via PR. | PR required, 0 reviews, enforce admins |
 
 ## Workflow
 
@@ -19,7 +19,16 @@ Skill Suites is a library of [Hermes Agent](https://github.com/nousresearch/herm
 3. Make your changes
 4. Run validation (see below)
 5. **Push** and open a PR targeting `develop`
-6. After review and merge to `develop`, a maintainer creates a release PR `develop → main`
+6. After review and merge to `develop`, a maintainer creates a release PR `develop` → `main`
+7. After merging to `main`, create a version tag (e.g. `v1.0.0`) from `main`
+
+### Rules
+
+- Feature branches merge to `develop` via PR (required)
+- `develop` merges to `main` via PR (required)
+- Version tags are created from `main` only — never from `develop`
+- No direct pushes to `main` or `develop`
+- No force pushes
 
 ## Adding a New Skill
 
