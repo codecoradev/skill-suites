@@ -1,7 +1,7 @@
 ---
 name: uteke
 description: "Uteke offline semantic memory engine — open source product."
-version: 0.10.1
+version: 0.11.0
 metadata:
   hermes:
     tags: [uteke, memory, semantic-search, offline, rust, local-first]
@@ -18,13 +18,13 @@ Persistent, searchable AI memory — offline, single Rust binary, ~30ms recall. 
 
 | Topic | Details |
 |-------|---------|
-| **Binary** | `uteke` (v0.10.1, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
+| **Binary** | `uteke` (v0.11.0, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
 | **License** | Apache 2.0 |
 | **Install** | `curl -sSL codecora.dev/install | sh` (one-liner, all platforms) |
 | **Source** | [codecoradev/uteke](https://github.com/codecoradev/uteke) (Rust, develop=mainline, main=release mirror) |
 | **Hermes** | Mode A (uteke-tool plugin, manual HTTP to uteke-serve) + Mode C (uteke-memory plugin: `pre_llm_call` hook auto-recall). Mode C plugin registers `ctx.register_hook("pre_llm_call", callback)` — in-process, no subprocess spawn, full contextvar access. See `extensions/hermes-memory-provider/` in uteke repo. |
 | **Embedding** | EmbeddingGemma Q4 ONNX 768d, lazy-loaded, uses output[1] (sentence_embedding, mean-pooled), L2 normalized. HF: `onnx-community/embeddinggemma-300m-ONNX`. SHA256-verified download. Remote via OpenAI/Ollama (opt-in). See [`references/source-verified-internals.md`](references/source-verified-internals.md) |
-| **Storage** | SQLite + usearch vector index at `~/.uteke/` |
+| **Storage** | SQLite + usearch vector index at `~/.codecora/uteke/` (migrated from `~/.uteke/` in v0.10.1, auto-migrates on first launch) |
 | **Server** | Docker container `uteke-serve`. Auth: `Authorization: Bearer $UTEKE_TOKEN`. Env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Schema v15. All operations via `curl` to your uteke-serve instance. Source-verified endpoint map in [`references/server_api.md`](references/server_api.md). DB schema audit with indexes, FTS5, and query patterns in [`references/db-schema-audit.md`](references/db-schema-audit.md). ⚠️ **Auto-aging and auto-dream DISABLED in production** — see config section below. |
 | **Docker** | `ghcr.io/codecoradev/uteke:latest` |
 | **Init** | `uteke init --agent <pi|claude|cursor|hermes> [--memory-provider]` — sets up agent integration (manual or auto recall). Pi: TS extension with `before_agent_start` hook. Claude/Cursor: enhanced rules + MCP config snippet. |
@@ -76,6 +76,21 @@ curl -X DELETE ${UTEKE_BASE_URL}/room/document/remove \
 ```
 
 ⚠️ Always use `--namespace <agent>`, `--type <fact|decision|procedure|preference|context>`, `--detect-contradiction` when re-storing.
+
+## What's New (v0.10.2 — v0.11.0)
+
+### v0.11.0
+- **`POST /doc/move` fixed** — `deny_unknown_fields` + UUID fallback for parent resolution. Wrong field names now return 400 instead of silent data loss (#833).
+- **Recall score reports cosine similarity** — not RRF rank, when results appear in only one store (#831).
+- **MCP/CLI store mismatch fixed** — hardcoded `~/.uteke` paths resolved through `uteke_home()`. MCP and CLI now share the same store (#830).
+- **`POST /consolidate` accepts string threshold** — flex deserializer for MCP layers that stringify params (#826).
+- **API route drift guard** — source-backed test ensures all handler routes are registered (#829).
+
+### v0.10.2
+- **SIGILL fix for non-AVX2 CPUs** — Runtime CPU feature detection selects between AVX2 and SSE4.2 ONNX libraries. Use `*-legacy*` release bundles on older CPUs (#709).
+- **Room operations filter deprecated** — `room_stats`, `recall_room`, `get_room_memory_ids` now filter `deprecated = 0` (was 76% stat inflation).
+- **Short ID prefix for forget** — `DELETE /forget` accepts 8-char prefix, not just full UUID.
+- **Auto-generated API reference** — `crates/docgen` generates `docs/api-reference.md` from route registry.
 
 ## ⚠️ Breaking Changes (v0.8.0)
 

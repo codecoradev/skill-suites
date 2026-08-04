@@ -4,7 +4,7 @@ description: |
   Cora Code — complete guide covering usage (review, scan, brain search, code intelligence)
   AND development (architecture, Brain Mode roadmap, embedding strategy, CI pitfalls, tree-sitter).
   CLI binary cora. BYOK AI code review + code intelligence platform.
-version: 4.3.0
+version: 0.12.0
 metadata:
   author: CodeCoraDev
   hermes:
@@ -43,10 +43,13 @@ Rust CLI for AI-powered code review + code intelligence. Binary `cora` (crate: `
 | `cora impact <symbol>` | Recursive reverse-traversal impact |
 | `cora affected <files>` | Find tests affected by changed files |
 | `cora explore <query>` | FTS5 keyword search with filters |
+| `cora dead-code` | Find functions/methods with no callers (v0.10.0+) |
+| `cora query "main -> *"` | Graph traversal DSL: callees, callers, symbol lookup (v0.10.0+) |
+| `cora install` | Auto-detect AI coding agents, configure MCP server (v0.10.0+) |
 
 ## MCP Server Mode
 
-Cora includes a built-in MCP (Model Context Protocol) server (`cora mcp`) that exposes 15 tools for AI agents:
+Cora includes a built-in MCP (Model Context Protocol) server (`cora mcp`) that exposes 18 tools for AI agents:
 
 ```yaml
 # Example agent config
@@ -58,7 +61,7 @@ mcp_servers:
     connect_timeout: 10
 ```
 
-After restart, tools become `mcp_cora_brain_search`, `mcp_cora_find_callers`, `mcp_cora_find_impact`, `mcp_cora_review_diff`, `mcp_cora_check_snippet`, `mcp_cora_search_symbols`, `mcp_cora_find_affected_tests`, `mcp_cora_index_status`, `mcp_cora_list_rules`, `mcp_cora_get_quality_gate`, `mcp_cora_get_config`, `mcp_cora_get_project_info`, `mcp_cora_get_debt`, `mcp_cora_list_profiles`, `mcp_cora_get_memory`.
+After restart, tools become `mcp_cora_brain_search`, `mcp_cora_find_callers`, `mcp_cora_find_impact`, `mcp_cora_review_diff`, `mcp_cora_check_snippet`, `mcp_cora_search_symbols`, `mcp_cora_find_affected_tests`, `mcp_cora_index_status`, `mcp_cora_list_rules`, `mcp_cora_get_quality_gate`, `mcp_cora_get_config`, `mcp_cora_get_project_info`, `mcp_cora_get_debt`, `mcp_cora_list_profiles`, `mcp_cora_get_memory`, `mcp_cora_dead_code`, `mcp_cora_query`, `mcp_cora_install`.
 
 ## When to Use
 
@@ -69,6 +72,30 @@ After restart, tools become `mcp_cora_brain_search`, `mcp_cora_find_callers`, `m
 - Understanding a codebase → `cora arch`, `cora trace`
 - Debugging cora issues (auth, config, CI failures)
 - Adding CI review to a repo
+
+## What's New (v0.11.0 — v0.12.0)
+
+### v0.12.0
+- **FTS5 camelCase search fixed** — `split_camel_case()` decomposes identifiers (`findUser` → `find OR user`). Added `file` column to FTS5 virtual table (schema v6) (#451).
+- **Dead-code false positives on framework entry points** — `FRAMEWORK_ENTRY_PREFIXES` (`handle_*`, `on_*`, `route_*`) excluded from dead-code detection (#452).
+- **Symbol-level suppression markers** — `// cora: keep` in symbol body excludes it from dead-code detection (#452).
+- **Sticky skip files on config change** — `index_config_hash` column re-evaluates skipped files when `.cora.yaml` changes (#453).
+- **`entry_point_patterns` config field** — Custom glob patterns for framework-specific entry points in `.cora.yaml`.
+- **Schema migration v6** — Auto-migration: adds `index_config_hash`, rebuilds FTS5 with `file` column.
+
+### v0.11.0
+- **Unused import detection** — Index-powered scanner flags imports never referenced in file. Works across Rust, TypeScript, Go, Python.
+- **Dead code in review** — Changed files with dead functions/methods (zero callers) auto-flagged during review.
+- **Breaking change detection** — Removed/modified public symbols flagged with affected callers list.
+- **HTTP route detection** — Route handlers (Axum, Actix, Express, Go net/http) tracked as `ROUTE` edges.
+- **Brain enrichment (Tier 1)** — Review pipeline leverages symbol index for caller resolution, impact analysis, affected tests, semantic search.
+
+### v0.10.0
+- **Dead code detection** — `cora dead-code` CLI + MCP tool. Call graph analysis, zero-caller detection.
+- **Graph query DSL** — `cora query "main -> *"` for code graph traversal.
+- **Auto-config agent installer** — `cora install` detects 40+ AI coding agents, configures MCP server.
+- **Background reindex on serve** — `cora serve` auto-reindexes before starting MCP server.
+- **Tree-sitter default feature** — AST-based extraction in all builds including release binaries.
 
 ## Data Directory
 
