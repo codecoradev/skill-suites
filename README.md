@@ -14,6 +14,7 @@ Clone a skill, drop it in your Hermes skills folder, done.
 | [uteke-coordination](src/uteke-coordination/) | Room-based inter-agent coordination, shared memory rooms for multi-agent task routing, alerts, discussions |
 | [cora-code](src/cora-code/) | Code intelligence platform, symbol extraction, hybrid search, brain mode (BYOK) |
 | [covecto](src/covecto/) | Raster-to-SVG vectorization, convert bitmap images to clean vector graphics in Rust |
+| [titen](src/titen/) | Self-hosted Threads API manager, post scheduling, multi-account management, analytics, MCP server |
 
 ### Workflow Skills
 
@@ -66,6 +67,7 @@ git clone https://github.com/codecoradev/skill-suites.git
 cp -r skill-suites/src/uteke ~/.hermes/skills/
 cp -r skill-suites/src/cora-code ~/.hermes/skills/
 cp -r skill-suites/src/covecto ~/.hermes/skills/
+cp -r skill-suites/src/titen ~/.hermes/skills/
 cp -r skill-suites/src/humanizer ~/.hermes/skills/creative/
 cp -r skill-suites/src/copywriting ~/.hermes/skills/
 ```
@@ -135,6 +137,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for branch strategy, validation checklist
 
 - [Uteke](https://github.com/codecoradev/uteke) — Offline-first semantic memory engine
 - [Cora Code](https://github.com/codecoradev/cora-code) — Code intelligence platform
+- [Titen](https://github.com/codecoradev/titen) — Self-hosted Threads API manager
 - [Covecto](https://github.com/codecoradev/covecto) — Dual-engine image-to-SVG vectorization (Rust)
 
 ---
