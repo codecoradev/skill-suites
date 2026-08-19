@@ -104,3 +104,16 @@ Open a GitHub issue with:
 - Expected vs actual behavior
 - Hermes Agent version you're running
 - Steps to reproduce (if applicable)
+
+## License
+
+By contributing you agree your work is licensed under the project's [Apache-2.0](LICENSE) license.
+
+## Contribution Terms
+
+CodeCoraDev projects are open-source and community-driven. By submitting a contribution, you agree that:
+
+1. **No Compensation:** Contributions are voluntary and unpaid.
+2. **License Grant:** You grant CodeCoraDev a perpetual, worldwide, non-exclusive, royalty-free license to use, modify, and distribute your contribution under the project's current license and any future license CodeCoraDev may adopt.
+3. **Original Work:** Your contribution is your original work or properly attributed third-party work.
+4. **No Obligation:** CodeCoraDev is not obligated to accept, use, or maintain any contribution.
