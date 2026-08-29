@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   cla-check:
+    if: "!contains(fromJSON('[\"dependabot[bot]\", \"renovate[bot]\", \"github-actions[bot]\", \"app/dependabot\", \"app/renovate\"]'), github.event.pull_request.user.login)"
     runs-on: ubuntu-latest
     steps:
       - name: Fetch & check CLA signature
