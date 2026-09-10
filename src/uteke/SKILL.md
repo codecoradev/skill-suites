@@ -1,7 +1,7 @@
 ---
 name: uteke
 description: "Uteke offline semantic memory engine — open source product."
-version: 0.11.0
+version: 0.17.0
 metadata:
   hermes:
     tags: [uteke, memory, semantic-search, offline, rust, local-first]
@@ -18,7 +18,7 @@ Persistent, searchable AI memory — offline, single Rust binary, ~30ms recall. 
 
 | Topic | Details |
 |-------|---------|
-| **Binary** | `uteke` (v0.11.0, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
+| **Binary** | `uteke` (v0.17.0, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
 | **License** | Apache 2.0 |
 | **Install** | `curl -sSL codecora.dev/install | sh` (one-liner, all platforms) |
 | **Source** | [codecoradev/uteke](https://github.com/codecoradev/uteke) (Rust, develop=mainline, main=release mirror) |
@@ -77,20 +77,29 @@ curl -X DELETE ${UTEKE_BASE_URL}/room/document/remove \
 
 ⚠️ Always use `--namespace <agent>`, `--type <fact|decision|procedure|preference|context>`, `--detect-contradiction` when re-storing.
 
-## What's New (v0.10.2 — v0.11.0)
+## What's New (v0.15.0 — v0.17.0)
 
-### v0.11.0
-- **`POST /doc/move` fixed** — `deny_unknown_fields` + UUID fallback for parent resolution. Wrong field names now return 400 instead of silent data loss (#833).
-- **Recall score reports cosine similarity** — not RRF rank, when results appear in only one store (#831).
-- **MCP/CLI store mismatch fixed** — hardcoded `~/.uteke` paths resolved through `uteke_home()`. MCP and CLI now share the same store (#830).
-- **`POST /consolidate` accepts string threshold** — flex deserializer for MCP layers that stringify params (#826).
-- **API route drift guard** — source-backed test ensures all handler routes are registered (#829).
+### v0.17.0 — inspectable, trustworthy memory
+- **Explain recall** — `uteke recall "…" --explain` shows WHY each memory ranked: vector/FTS ranks, RRF score with per-channel fusion contributions, boost deltas. Also `POST /recall` with `"explain": true` and MCP `uteke_recall` explain flag (#1160).
+- **Contradiction ledger + undo** — supersessions are an auditable ledger: `uteke contradictions list|undo`, `GET /contradictions`, `POST /contradictions/undo`, MCP `uteke_contradictions`/`uteke_contradictions_undo`. `undo_supersession(id)` restores a retired memory (#1172).
+- **`uteke supersede <old> <new> [--reason]`** — CLI surface parity for supersession (previously MCP/HTTP only) (#1172).
+- **`uteke provenance <id>`** — SHA-256 content hash at write time (tamper evidence), actor/evidence timeline, trust tier. Schema v18, additive (#1172).
+- **Namespace ops** — `uteke namespace move|rename|delete` (delete needs `--confirm`; strategies: `refuse`/`merge`/`deprecate`). `PUT /memory` accepts `namespace` to move a memory (#1181).
+- **`/list` pagination metadata** — `"include_meta": true` returns `{memories, total, has_more, next_offset}` envelope; default response unchanged (#1188).
+- **Fixed** — `/graph` no longer returns stale nodes from forgotten/deprecated memories; memory graph nodes get readable content-preview labels instead of raw UUIDs; `POST /graph/edge` accepts memory IDs (was 500).
 
-### v0.10.2
-- **SIGILL fix for non-AVX2 CPUs** — Runtime CPU feature detection selects between AVX2 and SSE4.2 ONNX libraries. Use `*-legacy*` release bundles on older CPUs (#709).
-- **Room operations filter deprecated** — `room_stats`, `recall_room`, `get_room_memory_ids` now filter `deprecated = 0` (was 76% stat inflation).
-- **Short ID prefix for forget** — `DELETE /forget` accepts 8-char prefix, not just full UUID.
-- **Auto-generated API reference** — `crates/docgen` generates `docs/api-reference.md` from route registry.
+### v0.16.0 — fusion is the default everywhere
+- **`fusion` recall strategy** — weighted RRF of vector + hybrid rankings (k=60). **Default recall strategy is now `fusion`** (CLI, HTTP, MCP) when no strategy is specified; explicit `default_strategy` configs are untouched. LongMemEval fast50: R@5 0.98 vs 0.9267 hybrid (#1123).
+- **Public benchmark page** — `docs/benchmarks.md`: recall_any@5 98.2%, recall_all@10 95.4%.
+
+### v0.15.0 — trust + portability
+- **UUIDv7 for new IDs** — time-ordered; existing v4 IDs keep working (#1060).
+- **Supersession workflow** — mark stale decisions superseded; recall flags superseded entries (#1069).
+- **Structural export/import** — full-store round-trip: rooms, graph, edges, documents, timeline (#1068).
+- **MCP `uteke_get` + `uteke_update`** — read/edit a single memory by ID, short-ID resolution (#1067).
+- **Fixed** — `uteke_dream` is dry-run-first (destructive passes need explicit confirmation); `/export` keeps namespace attribution; recall cache score parity; soft-forgotten memories no longer leak into list/search/doctor counts.
+
+See the [CHANGELOG](https://github.com/codecoradev/uteke/blob/main/CHANGELOG.md) for the full history (v0.12.0—v0.14.3: merge_from_file config fix, FTS5 content indexing, room-document junction tools, hybrid default strategy, HTTP/MCP strategy parity, crates.io publish fix).
 
 ## ⚠️ Breaking Changes (v0.8.0)
 
