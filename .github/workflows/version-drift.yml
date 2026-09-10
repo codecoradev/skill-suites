@@ -1,0 +1,78 @@
+name: Version Drift Check
+
+on:
+  schedule:
+    # Every Monday 04:00 UTC (11:00 WIB)
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "README.md"
+      - "src/uteke/SKILL.md"
+      - "src/cora-code/SKILL.md"
+
+permissions:
+  contents: read
+
+env:
+  # All products listed in the README quick-install table.
+  PRODUCTS: "uteke cora-code covecto"
+  # Only these skills document the product binary 1:1, so only these
+  # must keep their `version:` aligned with the product release tag.
+  # (covecto skill teaches the vtracer library and versions independently.)
+  SKILL_PRODUCTS: "uteke cora-code"
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compare live releases vs declared versions
+        run: |
+          set -euo pipefail
+          drift=0
+
+          get_readme_version() {
+            # Row looks like: | [Uteke](https://github.com/codecoradev/uteke) | v0.15.0 | ...
+            grep -oP "codecoradev/$1\)\s*\|\s*\Kv[0-9.]+" README.md | head -1
+          }
+
+          get_skill_version() {
+            local f="src/$1/SKILL.md"
+            [ -f "$f" ] && grep -m1 '^version:' "$f" | awk '{print "v" $2}'
+          }
+
+          for repo in $PRODUCTS; do
+            live=$(curl -sfL "https://api.github.com/repos/codecoradev/$repo/releases/latest" | grep -oP '"tag_name":\s*"\K[^"]+')
+            readme_v=$(get_readme_version "$repo" || echo "MISSING")
+
+            echo "$repo: live=$live readme=$readme_v"
+
+            if [ "$readme_v" != "$live" ]; then
+              echo "::error file=README.md::$repo README says ${readme_v:-MISSING} but latest release is $live"
+              drift=1
+            fi
+          done
+
+          for repo in $SKILL_PRODUCTS; do
+            live=$(curl -sfL "https://api.github.com/repos/codecoradev/$repo/releases/latest" | grep -oP '"tag_name":\s*"\K[^"]+')
+            skill_v=$(get_skill_version "$repo" || echo "vMISSING")
+
+            echo "$repo: live=$live skill=$skill_v"
+
+            if [ "$skill_v" != "$live" ]; then
+              echo "::error::$repo SKILL.md says $skill_v but latest release is $live"
+              drift=1
+            fi
+          done
+
+          if [ "$drift" -ne 0 ]; then
+            echo ""
+            echo "Version drift detected. Update the README table and SKILL.md frontmatter,"
+            echo "then add a 'What's New' entry covering the missed releases."
+            exit 1
+          fi
+
+          echo "All product versions in sync."
