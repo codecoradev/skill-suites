@@ -4,7 +4,7 @@ description: |
   Cora Code — complete guide covering usage (review, scan, brain search, code intelligence)
   AND development (architecture, Brain Mode roadmap, embedding strategy, CI pitfalls, tree-sitter).
   CLI binary cora. BYOK AI code review + code intelligence platform.
-version: 0.12.0
+version: 0.15.0
 metadata:
   author: CodeCoraDev
   hermes:
@@ -73,29 +73,28 @@ After restart, tools become `mcp_cora_brain_search`, `mcp_cora_find_callers`, `m
 - Debugging cora issues (auth, config, CI failures)
 - Adding CI review to a repo
 
-## What's New (v0.11.0 — v0.12.0)
+## What's New (v0.13.0 — v0.15.0)
 
-### v0.12.0
-- **FTS5 camelCase search fixed** — `split_camel_case()` decomposes identifiers (`findUser` → `find OR user`). Added `file` column to FTS5 virtual table (schema v6) (#451).
-- **Dead-code false positives on framework entry points** — `FRAMEWORK_ENTRY_PREFIXES` (`handle_*`, `on_*`, `route_*`) excluded from dead-code detection (#452).
-- **Symbol-level suppression markers** — `// cora: keep` in symbol body excludes it from dead-code detection (#452).
-- **Sticky skip files on config change** — `index_config_hash` column re-evaluates skipped files when `.cora.yaml` changes (#453).
-- **`entry_point_patterns` config field** — Custom glob patterns for framework-specific entry points in `.cora.yaml`.
-- **Schema migration v6** — Auto-migration: adds `index_config_hash`, rebuilds FTS5 with `file` column.
+### v0.15.0 — quantized vector store (vecq)
+- **Opt-in `vecq` vector store for Brain Mode** — `brain.vector_store: vecq` in `.cora.yaml` replaces the usearch HNSW index with a vecq quantized scan (pure Rust, deterministic, ~5x smaller). Keyed persistence: symbol IDs survive reload, so `cora index` no longer re-embeds unchanged projects (#542, #547).
+- **`brain.vector_bits` knob** — `residual` (default) | `4` | `5` | `6`. Default residual = best recall@10 at 4-bit scan speed. Changing width rebuilds the index once on next `cora index` (#542).
+- **Fixed: vector signal never fired in a fresh process** — `cora brain` / MCP `brain_search` silently degraded to FTS-only unless the same process had run the embed. Index now lazy-loads once per process with a dimension guard (#545).
+- **Fixed: stale embed fingerprints after a global index rebuild** — rebuilds now clear fingerprints for all projects (#545).
 
-### v0.11.0
-- **Unused import detection** — Index-powered scanner flags imports never referenced in file. Works across Rust, TypeScript, Go, Python.
-- **Dead code in review** — Changed files with dead functions/methods (zero callers) auto-flagged during review.
-- **Breaking change detection** — Removed/modified public symbols flagged with affected callers list.
-- **HTTP route detection** — Route handlers (Axum, Actix, Express, Go net/http) tracked as `ROUTE` edges.
-- **Brain enrichment (Tier 1)** — Review pipeline leverages symbol index for caller resolution, impact analysis, affected tests, semantic search.
+### v0.14.0 — reasoning-model robustness + honest dead-code
+- **Empty LLM responses from reasoning models fixed** — GLM-style models that burn `max_tokens` on chain-of-thought no longer surface as `EOF while parsing`; cora retries with doubled budget (up to 32768), salvages JSON from reasoning text, reports explicit "EMPTY response" (#536).
+- **Dead-code skips public API surface by default** — `pub`/`export` items excluded; `--include-pub` / MCP `include_pub_api` opt back in (#520).
+- **Fixed: dead-code false positives from cross-crate method calls** — was 557 false positives on a 5-crate workspace (#519).
+- **Fixed: index root mismatch between CLI and MCP** — root resolution prefers `[workspace]` Cargo.toml, never climbs past `.git` (#522).
+- **Fixed: `ignore.files` honored by the index** — matched files are excluded from indexing entirely (#521).
+- **Default `max_tokens` raised 4096 → 8192** (#536).
+- **Relicensed MIT → Apache-2.0** + CLA added (individual + corporate).
 
-### v0.10.0
-- **Dead code detection** — `cora dead-code` CLI + MCP tool. Call graph analysis, zero-caller detection.
-- **Graph query DSL** — `cora query "main -> *"` for code graph traversal.
-- **Auto-config agent installer** — `cora install` detects 40+ AI coding agents, configures MCP server.
-- **Background reindex on serve** — `cora serve` auto-reindexes before starting MCP server.
-- **Tree-sitter default feature** — AST-based extraction in all builds including release binaries.
+### v0.13.0 — runtime embedding backend
+- **Runtime embedding backend selection** — `brain.embedding` in `.cora.yaml`: `auto` (default) | `hashing` (256d, zero-dependency) | `pretrained` (768d nomic). No recompilation to switch.
+- **Incremental per-symbol embedding** — `embed_fingerprint` (name + signature hash) skips unchanged symbols; re-index after touching one file embeds only changes. Schema v7, auto-migrates.
+
+See the [CHANGELOG](https://github.com/codecoradev/cora-code/blob/main/CHANGELOG.md) for the full history.
 
 ## Data Directory
 
