@@ -1,7 +1,7 @@
 ---
 name: uteke
 description: "Uteke offline semantic memory engine — open source product."
-version: 0.17.0
+version: 0.19.0
 metadata:
   hermes:
     tags: [uteke, memory, semantic-search, offline, rust, local-first]
@@ -18,14 +18,14 @@ Persistent, searchable AI memory — offline, single Rust binary, ~30ms recall. 
 
 | Topic | Details |
 |-------|---------|
-| **Binary** | `uteke` (v0.17.0, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
+| **Binary** | `uteke` (v0.19.0, installed from GitHub release). Set env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Use `curl` to the server API when running uteke-serve in Docker. |
 | **License** | Apache 2.0 |
 | **Install** | `curl -sSL codecora.dev/install | sh` (one-liner, all platforms) |
 | **Source** | [codecoradev/uteke](https://github.com/codecoradev/uteke) (Rust, develop=mainline, main=release mirror) |
 | **Hermes** | Mode A (uteke-tool plugin, manual HTTP to uteke-serve) + Mode C (uteke-memory plugin: `pre_llm_call` hook auto-recall). Mode C plugin registers `ctx.register_hook("pre_llm_call", callback)` — in-process, no subprocess spawn, full contextvar access. See `extensions/hermes-memory-provider/` in uteke repo. |
 | **Embedding** | EmbeddingGemma Q4 ONNX 768d, lazy-loaded, uses output[1] (sentence_embedding, mean-pooled), L2 normalized. HF: `onnx-community/embeddinggemma-300m-ONNX`. SHA256-verified download. Remote via OpenAI/Ollama (opt-in). See [`references/source-verified-internals.md`](references/source-verified-internals.md) |
 | **Storage** | SQLite + usearch vector index at `~/.codecora/uteke/` (migrated from `~/.uteke/` in v0.10.1, auto-migrates on first launch) |
-| **Server** | Docker container `uteke-serve`. Auth: `Authorization: Bearer $UTEKE_TOKEN`. Env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Schema v15. All operations via `curl` to your uteke-serve instance. Source-verified endpoint map in [`references/server_api.md`](references/server_api.md). DB schema audit with indexes, FTS5, and query patterns in [`references/db-schema-audit.md`](references/db-schema-audit.md). ⚠️ **Auto-aging and auto-dream DISABLED in production** — see config section below. |
+| **Server** | Docker container `uteke-serve`. Auth: `Authorization: Bearer $UTEKE_TOKEN`. Env: `UTEKE_BASE_URL` (default `http://localhost:8767`), `UTEKE_TOKEN`, `UTEKE_NAMESPACE`. Schema v20 (audit-grade timeline; `uteke_timeline` MCP tool reads it). All operations via `curl` to your uteke-serve instance. Source-verified endpoint map in [`references/server_api.md`](references/server_api.md). DB schema audit with indexes, FTS5, and query patterns in [`references/db-schema-audit.md`](references/db-schema-audit.md). ⚠️ **Auto-aging and auto-dream DISABLED in production** — see config section below. |
 | **Docker** | `ghcr.io/codecoradev/uteke:latest` |
 | **Init** | `uteke init --agent <pi|claude|cursor|hermes> [--memory-provider]` — sets up agent integration (manual or auto recall). Pi: TS extension with `before_agent_start` hook. Claude/Cursor: enhanced rules + MCP config snippet. |
 | **Upgrade** | `uteke upgrade` (v0.7.0+) — self-update to latest release with checksum verification. Pre-v0.7.0: manual download from GitHub Releases, extract 3 binaries (`uteke`, `uteke-serve`, `uteke-mcp`), replace in PATH. **Pitfall:** `curl -fsSL -L` for GitHub release assets (follow redirects). Extract to temp dir to avoid `tar: Cannot open: File exists`. |
@@ -77,7 +77,27 @@ curl -X DELETE ${UTEKE_BASE_URL}/room/document/remove \
 
 ⚠️ Always use `--namespace <agent>`, `--type <fact|decision|procedure|preference|context>`, `--detect-contradiction` when re-storing.
 
-## What's New (v0.15.0 — v0.17.0)
+## What's New (v0.15.0 — v0.19.0)
+
+### v0.19.0 — agent-facing API surface + audit-grade history
+- **Audit timeline survives forget/deprecation (#1280, schema v20)** — `timeline_events` rebuilt without `ON DELETE CASCADE`; `deprecate_with_reason` records a `deprecated` event, hard `forget()` writes a `forgot` tombstone first. New MCP tool `uteke_timeline` (`id`, optional `limit`) reads the trail, including tombstones. History is never deleted.
+- **Verify/repair over HTTP + MCP (#1272)** — `POST /verify` (SQLite rows vs vector index size + match flag), `POST /repair` (rebuild index from stored embeddings), MCP `uteke_verify`/`uteke_repair`. A live store can be audited/repaired without restarting `uteke-serve` (write-token surface). Fixes the stale-vector-index failure mode (rows in SQLite+FTS5 but missing from the index).
+- **`recall --pack` — budgeted context pack (#1281 Phase 1)** — `uteke recall --pack [--budget N] [--exclude-ids ...]` returns `{selected, skipped, budget_used, budget_chars}`: rank-order preserving greedy fill, per-item skip reasons (`excluded`/`budget`). Deterministic, LLM-free; fusion RRF ranking untouched. Same flags on HTTP `POST /recall` (`pack`, `budget_chars`, `exclude_ids`) and MCP `uteke_recall`. Phase 2 (MMR) is benchmark-gated.
+- **`GET /routes` — machine-readable route introspection (#1289)** — every endpoint with method, path, tier (CORE/LAB), description, request/response types. Consumers can validate against the real contract instead of stale notes. Anonymous callers get 401 when a token is configured; read-only tokens allowed.
+- **Tier-tagged API registry + `docs/core-contract.json` (#1276)** — 33 CORE + 44 LAB endpoints; docgen emits the machine-readable CORE list consumed by uteke-cloud's route-parity gate; API Docs Fresh CI fails when stale.
+- **SKILL.md in version lockstep with the CLI (#1274)** — bundled skill's `Version:` line tracks `CARGO_PKG_VERSION`, enforced by CI tests.
+- **`remember` reports embedding-write failures honestly (#1273)** — on embedding/index failure the memory is still stored (SQLite + FTS5, keyword-searchable) and every surface (CLI/HTTP/MCP) now returns `embedding_written: false` + `warning` instead of failing hard or passing silently. Recoverable via `uteke repair`.
+- **Namespace correctness fixes** — `doc list` honors `--namespace` on CLI/HTTP/MCP (#1268/#1269); unified recall (`--type all`) no longer floods scoped recall with cross-namespace documents, and doc scores are real RRF sums (no more fake 1.000) (#1270/#1271); `GET /room/memories` honors the `namespace` query param (#1288 — was silently returning the full cross-namespace list).
+- **Note:** the prepared v0.18.2 patch line was never tagged — its contents (unified doc recall fix + honest embedding-write reporting) ship in 0.19.0.
+
+### v0.18.1 — correctness + operational hardening
+- Structural export round-trips cleanly with soft-deleted memories (#1243/#1253); HTTP write endpoints reject unknown keys with 400 naming the key (#1251/#1254 — send `namespace`, not v1-style `ns`); `uteke upgrade` updates companion binaries (`uteke-serve`, `uteke-mcp`) + ORT libs atomically (#1245/#1255); `GET /health` answers `{"status":"ok"}` only for tokenless probes (version/counts need auth) (#1252/#1257); `uteke doctor` success footer (#1246).
+
+### v0.18.0 — agent-operable memory plumbing
+- **Ingest date anchors** — `uteke remember --timestamp` / import timestamps so time-travel recall (`at`) and temporal boosts don't depend on ingest order (#1232/#1238).
+- **Room lifecycle** — `uteke room rename|update|move-memory` (HTTP `POST /room/rename|/room/update|/room/memory/move`, MCP parity); schema v19 adds `rooms.description`; `uteke update <id>` in-place memory edit (#1202/#1203).
+- **Recall payload conformance tests** — recall responses carry the FULL payload across CLI/HTTP/MCP (#1233/#1239).
+- **Fixed** — default recall `min_score` 0.3 → 0.0 (0.3 was a cosine-era value; fusion RRF scores are rank-based ~0.0-0.2, so default recall returned empty) (#1223); benchmarks/ restructured with committed raw LongMemEval artifacts.
 
 ### v0.17.0 — inspectable, trustworthy memory
 - **Explain recall** — `uteke recall "…" --explain` shows WHY each memory ranked: vector/FTS ranks, RRF score with per-channel fusion contributions, boost deltas. Also `POST /recall` with `"explain": true` and MCP `uteke_recall` explain flag (#1160).
