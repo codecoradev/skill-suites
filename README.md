@@ -36,7 +36,7 @@ Product skills require their respective binary installed. Download from GitHub R
 
 | Product | Latest | Download |
 |---------|--------|----------|
-| [Uteke](https://github.com/codecoradev/uteke) | v0.17.0 | [Releases](https://github.com/codecoradev/uteke/releases/latest) (Linux, macOS, Windows) |
+| [Uteke](https://github.com/codecoradev/uteke) | v0.19.0 | [Releases](https://github.com/codecoradev/uteke/releases/latest) (Linux, macOS, Windows) |
 | [Cora Code](https://github.com/codecoradev/cora-code) | v0.15.0 | [Releases](https://github.com/codecoradev/cora-code/releases/latest) (Linux, macOS, Windows) |
 | [Covecto](https://github.com/codecoradev/covecto) | v0.1.1 | [Releases](https://github.com/codecoradev/covecto/releases/latest) (Linux, macOS, Windows) |
 
