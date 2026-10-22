@@ -29,4 +29,3 @@ Examples: feat(skills): add covecto suite / docs(readme): update product version
 - [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
 - [ ] No secrets or credentials committed
 - [ ] One logical change per PR (no mixed concerns)
-- [ ] [CLA](https://github.com/codecoradev/.github/blob/main/.cla/signatures.json) signed (or will sign when the bot asks)
